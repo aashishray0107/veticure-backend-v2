@@ -50,7 +50,10 @@ export default async function handler(req, res) {
     );
 
     // 5️⃣ Allocation
-    const allocationReport = allocateIngredients(macroReport);
+    const allocationReport = allocateIngredients(
+  macroReport,
+  lifecycleReport.life_stage
+);
 
     // 6️⃣ Minerals
     const mineralReport = validateMinerals(
