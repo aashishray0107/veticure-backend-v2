@@ -39,14 +39,13 @@ export default async function handler(req, res) {
   calorieReport.final_calories
 );
 
-console.log(Object.keys(engineData));
 
-  return res.status(200).json({
-  input: req.body,
-  lifecycle_report: lifecycleReport,
-  calorie_report: calorieReport,
-  macro_report: macroReport,
-  mineral_report: mineralReport,
-  allocation_report: allocationReport
-});
+    return res.status(200).json({
+    input: req.body,
+    lifecycle_report: lifecycleReport,
+    calorie_report: calorieReport,
+    macro_report: macroReport,
+    mineral_report: mineralReport,
+    allocation_report: allocationReport
+  });
 }
