@@ -1,5 +1,6 @@
 import { evaluateLifecycle } from "../lib/lifecycle.js";
 import { calculateCalories } from "../lib/calories.js";
+import { calculateMacros } from "../lib/macro.js";
 
 export default async function handler(req, res) {
 
@@ -24,9 +25,16 @@ const calorieReport = calculateCalories(
   lifecycleReport.bcs_category
 );
 
+const macroReport = calculateMacros(
+  calorieReport.final_calories,
+  lifecycleReport.life_stage,
+  goal
+);
+
 return res.status(200).json({
   input: req.body,
   lifecycle_report: lifecycleReport,
-  calorie_report: calorieReport
+  calorie_report: calorieReport,
+  macro_report: macroReport
 });
 }
