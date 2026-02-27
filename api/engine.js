@@ -40,6 +40,7 @@ export default async function handler(req, res) {
 );
 
 
+
     return res.status(200).json({
     input: req.body,
     lifecycle_report: lifecycleReport,
