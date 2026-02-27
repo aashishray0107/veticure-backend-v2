@@ -2,7 +2,7 @@ import { evaluateLifecycle } from "../lib/lifecycle.js";
 import { calculateCalories } from "../lib/calories.js";
 import { calculateMacros } from "../lib/macro.js";
 import { allocateIngredients } from "../lib/allocation.js";
-import { validateMinerals } from "../lib/minerals.js";
+import { validateMinerals } from "../lib/mineral.js"; // <-- singular
 
 export default async function handler(req, res) {
   try {
