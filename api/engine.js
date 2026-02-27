@@ -39,7 +39,7 @@ export default async function handler(req, res) {
   calorieReport.final_calories
 );
 
-console.log("ENGINE VERSION 5");
+console.log(Object.keys(engineData));
 
   return res.status(200).json({
   input: req.body,
