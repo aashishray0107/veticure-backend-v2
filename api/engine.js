@@ -2,6 +2,7 @@ import { evaluateLifecycle } from "../lib/lifecycle.js";
 import { calculateCalories } from "../lib/calories.js";
 import { calculateMacros } from "../lib/macro.js";
 import { validateMinerals } from "../lib/mineral.js";
+import { allocateIngredients } from "../lib/allocation.js";
 
 export default async function handler(req, res) {
 
@@ -30,6 +31,8 @@ export default async function handler(req, res) {
     goal
   );
 
+  const allocationReport = allocateIngredients(macroReport);
+
   const mineralReport = validateMinerals(
   lifecycleReport.life_stage,
   calorieReport.final_calories
@@ -40,6 +43,7 @@ export default async function handler(req, res) {
   lifecycle_report: lifecycleReport,
   calorie_report: calorieReport,
   macro_report: macroReport,
-  mineral_report: mineralReport
+  mineral_report: mineralReport,
+  allocation_report: allocationReport
 });
 }
