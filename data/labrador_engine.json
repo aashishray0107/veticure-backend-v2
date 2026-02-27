@@ -3020,7 +3020,26 @@
         "suitable_for_growth": true,
         "max_safe_percentage_of_total_meal": 0.25,
         "category": "carb"
-      }
+      },
+      "Calcium carbonate powder": {
+  "kcal_per_100g": 0,
+  "protein_g": 0,
+  "fat_g": 0,
+  "carbs_g": 0,
+  "fiber_g": 0,
+  "calcium_g": 40,
+  "phosphorus_g": 0,
+  "moisture_g": 0,
+  "digestibility_rating": "high",
+  "lifecycle_suitability": ["puppy", "adult", "senior", "weight_loss", "muscle_gain"],
+  "category": "mineral_supplement",
+  "regulatory_reference": {
+    "elemental_calcium_fraction": 0.40,
+    "source_alignment": "AAFCO Official Publication 2023, NRC 2006 Canine Nutrient Requirements",
+    "use_case": "Corrective calcium supplementation for homemade diet balancing"
+  }
+}
+
     }
   },
   "Vegetable_Safety_List": {
