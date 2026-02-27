@@ -1,6 +1,7 @@
 import { evaluateLifecycle } from "../lib/lifecycle.js";
 import { calculateCalories } from "../lib/calories.js";
 import { calculateMacros } from "../lib/macro.js";
+import { validateMinerals } from "../lib/mineral.js";
 
 export default async function handler(req, res) {
 
@@ -29,11 +30,16 @@ export default async function handler(req, res) {
     goal
   );
 
-  return res.status(200).json({
-    input: req.body,
-    lifecycle_report: lifecycleReport,
-    calorie_report: calorieReport,
-    macro_report: macroReport
-  });
+  const mineralReport = validateMinerals(
+  lifecycleReport.life_stage,
+  calorieReport.final_calories
+);
 
+  return res.status(200).json({
+  input: req.body,
+  lifecycle_report: lifecycleReport,
+  calorie_report: calorieReport,
+  macro_report: macroReport,
+  mineral_report: mineralReport
+});
 }
