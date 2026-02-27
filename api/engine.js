@@ -2,6 +2,7 @@ import { evaluateLifecycle } from "../lib/lifecycle.js";
 import { calculateCalories } from "../lib/calories.js";
 import { calculateMacros } from "../lib/macro.js";
 import { allocateIngredients } from "../lib/allocation.js";
+import { validateMinerals } from "../lib/minerals.js";
 
 export default async function handler(req, res) {
   try {
@@ -9,7 +10,8 @@ export default async function handler(req, res) {
       lifecycle_type: typeof evaluateLifecycle,
       calories_type: typeof calculateCalories,
       macro_type: typeof calculateMacros,
-      allocation_type: typeof allocateIngredients
+      allocation_type: typeof allocateIngredients,
+      minerals_type: typeof validateMinerals
     });
   } catch (err) {
     return res.status(500).json({
