@@ -24,16 +24,17 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: "Missing required fields" });
     }
 
-    // Load JSON once
     const dataPath = path.join(__dirname, "../data/labrador_engine.json");
     const rawData = fs.readFileSync(dataPath, "utf-8");
     const engineData = JSON.parse(rawData);
     const foodDB = engineData.Food_Composition_Database?.Ingredients;
 
-    // 1️⃣ Lifecycle
+    if (!foodDB) {
+      throw new Error("Food database not found");
+    }
+
     const lifecycleReport = evaluateLifecycle(age_months, weight_kg);
 
-    // 2️⃣ Calories
     const calorieReport = calculateCalories(
       weight_kg,
       activity_level || "Moderate",
@@ -41,17 +42,14 @@ export default async function handler(req, res) {
       lifecycleReport.bcs_category
     );
 
-    // 3️⃣ Macros
     const macroReport = calculateMacros(
       calorieReport.final_calories,
       lifecycleReport.life_stage,
       goal
     );
 
-    // 4️⃣ Allocation
     const allocationReport = allocateIngredients(macroReport);
 
-    // 5️⃣ Minerals
     const mineralReport = validateMinerals(
       lifecycleReport.life_stage,
       calorieReport.final_calories,
