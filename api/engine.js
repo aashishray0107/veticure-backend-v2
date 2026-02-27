@@ -39,6 +39,8 @@ export default async function handler(req, res) {
   calorieReport.final_calories
 );
 
+console.log("ENGINE VERSION 5");
+
   return res.status(200).json({
   input: req.body,
   lifecycle_report: lifecycleReport,
