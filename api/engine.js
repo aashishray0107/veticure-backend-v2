@@ -1,26 +1,24 @@
+import { evaluateLifecycle } from "../lib/lifecycle.js";
+
 export default async function handler(req, res) {
 
-  // 1️⃣ Allow only POST
   if (req.method !== "POST") {
-    return res.status(405).json({
-      error: "Only POST method allowed"
-    });
+    return res.status(405).json({ error: "Only POST allowed" });
   }
 
-  // 2️⃣ Read input body
   const { breed, age_months, weight_kg, goal } = req.body;
 
-  // 3️⃣ Basic validation
   if (!breed || !age_months || !weight_kg || !goal) {
     return res.status(400).json({
-      error: "Missing required fields: breed, age_months, weight_kg, goal"
+      error: "Missing required fields"
     });
   }
 
-  // 4️⃣ If everything is valid, return success
+  const lifecycleReport = evaluateLifecycle(age_months, weight_kg);
+
   return res.status(200).json({
-    message: "Input accepted",
-    received_data: req.body
+    input: req.body,
+    lifecycle_report: lifecycleReport
   });
 
 }
