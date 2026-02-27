@@ -3037,8 +3037,23 @@
     "elemental_calcium_fraction": 0.40,
     "source_alignment": "AAFCO Official Publication 2023, NRC 2006 Canine Nutrient Requirements",
     "use_case": "Corrective calcium supplementation for homemade diet balancing"
+    
   }
-}
+  
+},
+
+"Egg white boiled": {
+    "kcal_per_100g": 52,
+    "protein_g": 11,
+    "fat_g": 0,
+    "carbs_g": 1,
+    "fiber_g": 0,
+    "calcium_g": 0.007,
+    "phosphorus_g": 0.015,
+    "moisture_g": 88,
+    "digestibility_rating": "high",
+    "lifecycle_suitability": ["puppy","adult","senior","weight_loss","muscle_gain"],
+    "category": "protein_animal_low_phosphorus"
 
     }
   },
@@ -3816,4 +3831,5 @@
       "Must_Preserve_Final_kcal_per_day": true
     }
   }
+}
 }
