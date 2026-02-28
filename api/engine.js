@@ -36,11 +36,14 @@ export default async function handler(req, res) {
 
     // 3️⃣ Calories
     const calorieReport = calculateCalories(
-      weight_kg,
-      activity_level || "Moderate",
-      goal,
-      lifecycleReport.bcs_category
-    );
+  weight_kg,
+  activity_level || "Moderate",
+  goal,
+  lifecycleReport.bcs_category,
+  lifecycleReport.life_stage,
+  age_months,
+  engineData
+);
 
     // 4️⃣ Macros
     const macroReport = calculateMacros(
@@ -62,6 +65,9 @@ export default async function handler(req, res) {
       allocationReport,
       foodDB
     );
+
+    console.log("AGE:", age_months);
+console.log("IS SENIOR:", age_months >= 84);
 
     return res.status(200).json({
       input: req.body,
