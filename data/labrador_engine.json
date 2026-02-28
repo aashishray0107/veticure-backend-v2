@@ -2722,9 +2722,8 @@
       { "min_score": 3,  "max_score": 4,  "bcs_value": 2 },
       { "min_score": 5,  "max_score": 6,  "bcs_value": 3 },
       { "min_score": 7,  "max_score": 8,  "bcs_value": 4 },
-      { "min_score": 9,  "max_score": 10, "bcs_value": 5 },
-      { "min_score": 11, "max_score": 12, "bcs_value": 6 },
-      { "min_score": 13, "max_score": 14, "bcs_value": 7 },
+      { "min_score": 9,  "max_score": 12, "bcs_value": 5 },
+      { "min_score": 13, "max_score": 14, "bcs_value": 6 },
       { "min_score": 15, "max_score": 16, "bcs_value": 8 },
       { "min_score": 17, "max_score": 18, "bcs_value": 9 }
     ]
