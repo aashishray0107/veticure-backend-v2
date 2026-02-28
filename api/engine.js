@@ -1,3 +1,4 @@
+import { computeBCS } from "../lib/bcs.js";
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -49,6 +50,13 @@ export default async function handler(req, res) {
       gender || "Male",
       engineData
     );
+
+    const bcsReport = computeBCS(
+  lifecycleReport.deviation_bcs,
+  bcsReport.final_bcs_category,
+  req.body.bcs_answers,
+  engineData
+);
 
     // 🔥 BCS Fusion Layer
 
