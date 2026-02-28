@@ -32,7 +32,12 @@ export default async function handler(req, res) {
     const foodDB = engineData.Food_Composition_Database?.Ingredients;
 
     // 2️⃣ Lifecycle
-    const lifecycleReport = evaluateLifecycle(age_months, weight_kg);
+    const lifecycleReport = evaluateLifecycle(
+  age_months,
+  weight_kg,
+  req.body.gender || "Male",
+  engineData
+);
 
     // 3️⃣ Calories
     const calorieReport = calculateCalories(
