@@ -1,3 +1,4 @@
+import { calculateQuestionnaireBCS } from "../lib/bcsEngine.js";
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -39,12 +40,63 @@ export default async function handler(req, res) {
   engineData
 );
 
+// 🔥 BCS Fusion Layer
+
+const deviationBCS =
+  lifecycleReport.deviation_bcs;
+
+const questionnaireBCS =
+  calculateQuestionnaireBCS(
+    req.body.bcs_answers,
+    engineData
+  );
+
+let finalBCS = deviationBCS;
+
+const fusion =
+  engineData?.BCS_Automatic_Detection_Logic
+    ?.Fusion_Model;
+
+if (
+  questionnaireBCS !== null &&
+  fusion
+) {
+  finalBCS =
+    (deviationBCS * fusion.Deviation_Weight) +
+    (questionnaireBCS * fusion.Questionnaire_Weight);
+}
+
+finalBCS = Math.round(finalBCS);
+
+// 🔥 Map Final BCS → Category
+
+const categoryMap =
+  engineData?.BCS_Automatic_Detection_Logic
+    ?.BCS_Category_From_Score;
+
+let finalCategory = null;
+
+if (categoryMap) {
+  for (const category in categoryMap) {
+
+    const range = categoryMap[category];
+
+    if (
+      finalBCS >= range[0] &&
+      finalBCS <= range[1]
+    ) {
+      finalCategory = category;
+      break;
+    }
+  }
+}
+
     // 3️⃣ Calories
     const calorieReport = calculateCalories(
   weight_kg,
   activity_level || "Moderate",
   goal,
-  lifecycleReport.bcs_category,
+  finalCategory,
   lifecycleReport.life_stage,
   age_months,
   engineData
