@@ -2208,7 +2208,6 @@
         "engine_relevance": false
       }
     }
-  },
   
   },
   "Age_Resolution_Control": {
@@ -2628,7 +2627,7 @@
   "Ideal": { "min_bcs": 4, "max_bcs": 5 },
   "Overweight": { "min_bcs": 6, "max_bcs": 7 },
   "Obese": { "min_bcs": 8, "max_bcs": 9 }
-}
+},
     "Deviation_Decimal_Formula": "(Current_Weight_kg - Ideal_Mid_Weight_kg) / Ideal_Mid_Weight_kg",
     "Ideal_Mid_Weight_Selection": {
       "Source_Table": "Ideal_Weight_Reference_Table",
@@ -2735,14 +2734,13 @@
         "Rounding_Method": "Round to nearest whole integer",
         "Conflict_Resolution_Rule": "If rounded category differs from either component category, choose higher risk category",
         "Higher_Risk_Defined_As": "Higher numeric BCS value",
-        "Edge_Case_Rule": "
-        If one component returns range (e.g., 8-9), use midpoint before weighting",
-        "Deterministic_Output": true
+        "Edge_Case_Rule": "If one component returns range (e.g., 8-9), use midpoint before weighting",
+"Deterministic_Output": true
       }
     },
     "BCS_Fusion_Formula": "Final_BCS = 0.6 * Deviation_BCS + 0.4 * Questionnaire_BCS",
-    "higher_risk_override_if_conflict": true
-  "Goal_Priority_Execution_Rules": {
+    "higher_risk_override_if_conflict": true,
+"Goal_Priority_Execution_Rules": {
     "Step_1": "Calculate_Base_RER",
     "Step_2": "Apply_MER",
     "Step_3": "Apply_Weight_Condition_Adjustment",
