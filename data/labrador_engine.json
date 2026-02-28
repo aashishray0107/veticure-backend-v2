@@ -2648,22 +2648,22 @@
     },
     "Deviation_Thresholds": {
   "Severe_Underweight": {
-    "Max_Deviation_Decimal": -0.30
+    "Max_Deviation_Decimal": -0.25
   },
   "Underweight": {
-    "Min_Deviation_Decimal": -0.30,
-    "Max_Deviation_Decimal": -0.15
+    "Min_Deviation_Decimal": -0.24,
+    "Max_Deviation_Decimal": -0.06
   },
   "Ideal": {
-    "Min_Deviation_Decimal": -0.15,
-    "Max_Deviation_Decimal": 0.15
+    "Min_Deviation_Decimal": -0.05,
+    "Max_Deviation_Decimal": 0.05
   },
   "Overweight": {
-    "Min_Deviation_Decimal": 0.15,
-    "Max_Deviation_Decimal": 0.30
+    "Min_Deviation_Decimal": 0.06,
+    "Max_Deviation_Decimal": 0.24
   },
   "Obese": {
-    "Min_Deviation_Decimal": 0.30
+    "Min_Deviation_Decimal": 0.25
   }
 }
 },
