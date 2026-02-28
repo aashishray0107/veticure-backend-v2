@@ -2673,62 +2673,73 @@
   },
 
   "BCS_Questionnaire_Logic": {
-    "Questions": [
-      {
-        "Id": "ribs_palpable",
-        "Prompt": "Can you easily feel ribs with light pressure without deep pressing?",
-        "Options": {
-          "Yes_easily": 0,
-          "Yes_with_moderate_pressure": 1,
-          "No_ribs_not_palpable": 2
-        }
-      },
-      {
-        "Id": "waist_visible_top",
-        "Prompt": "Is a clear waist visible from above?",
-        "Options": {
-          "Clearly_visible": 0,
-          "Barely_visible": 1,
-          "No_waist_or_barrel_shape": 2
-        }
-      },
-      {
-        "Id": "abdominal_tuck",
-        "Prompt": "Is there an abdominal tuck when viewed from the side?",
-        "Options": {
-          "Clear_tuck": 0,
-          "Mild_tuck": 1,
-          "No_tuck_or_sagging": 2
-        }
+  "Questions": [
+    {
+      "Id": "ribs_palpable",
+      "Prompt": "How do the ribs appear or feel?",
+      "Options": {
+        "Ribs_extremely_visible_no_fat": 0,
+        "Ribs_clearly_visible": 1,
+        "Ribs_easily_visible": 2,
+        "Ribs_easily_palpable": 3,
+        "Ribs_palpable_no_excess": 4,
+        "Ribs_with_slight_cover": 5,
+        "Ribs_difficult_to_palpate": 6
       }
-    ],
-
-    "Scoring_Rules": {
-      "Total_Score_Range": [0, 6],
-      "Score_To_BCS_Map": [
-        { "min_score": 0, "max_score": 1, "bcs_value": 4 },
-        { "min_score": 2, "max_score": 3, "bcs_value": 5 },
-        { "min_score": 4, "max_score": 4, "bcs_value": 6 },
-        { "min_score": 5, "max_score": 5, "bcs_value": 7 },
-        {
-          "min_score": 6,
-          "max_score": 6,
-          "bcs_value": { "min_bcs": 8, "max_bcs": 9 }
-        }
-      ]
     },
-
-    "Fusion_Model": {
-      "Deviation_Component_Weight": 0.6,
-      "Questionnaire_Component_Weight": 0.4,
-      "Calculation_Method": "Final_BCS_Raw = (Deviation_BCS * 0.6) + (Questionnaire_BCS * 0.4)",
-      "Rounding_Method": "Round to nearest whole integer",
-      "Conflict_Resolution_Rule": "If rounded category differs from either component category, choose higher risk category",
-      "Higher_Risk_Defined_As": "Higher numeric BCS value",
-      "Edge_Case_Rule": "If one component returns range (e.g., 8-9), use midpoint before weighting",
-      "Deterministic_Output": true
+    {
+      "Id": "waist_visible_top",
+      "Prompt": "How is the waist when viewed from above?",
+      "Options": {
+        "Extreme_hourglass": 0,
+        "Very_narrow": 1,
+        "Obvious_waist": 2,
+        "Clear_waist": 3,
+        "Proportional_waist": 4,
+        "Slightly_straight": 5,
+        "No_waist_barrel_shape": 6
+      }
+    },
+    {
+      "Id": "abdominal_tuck",
+      "Prompt": "How is the abdominal tuck from side view?",
+      "Options": {
+        "Severe_concave": 0,
+        "Marked_tuck": 1,
+        "Clear_upward_angle": 2,
+        "Normal_tuck": 3,
+        "Mild_tuck": 4,
+        "Shallow_tuck": 5,
+        "No_tuck_or_sagging": 6
+      }
     }
+  ],
+
+  "Scoring_Rules": {
+    "Total_Score_Range": [0, 18],
+    "Score_To_BCS_Map": [
+      { "min_score": 0,  "max_score": 2,  "bcs_value": 1 },
+      { "min_score": 3,  "max_score": 4,  "bcs_value": 2 },
+      { "min_score": 5,  "max_score": 6,  "bcs_value": 3 },
+      { "min_score": 7,  "max_score": 8,  "bcs_value": 4 },
+      { "min_score": 9,  "max_score": 10, "bcs_value": 5 },
+      { "min_score": 11, "max_score": 12, "bcs_value": 6 },
+      { "min_score": 13, "max_score": 14, "bcs_value": 7 },
+      { "min_score": 15, "max_score": 16, "bcs_value": 8 },
+      { "min_score": 17, "max_score": 18, "bcs_value": 9 }
+    ]
   },
+
+  "Fusion_Model": {
+    "Deviation_Component_Weight": 0.6,
+    "Questionnaire_Component_Weight": 0.4,
+    "Calculation_Method": "Final_BCS_Raw = (Deviation_BCS * 0.6) + (Questionnaire_BCS * 0.4)",
+    "Rounding_Method": "Round to nearest whole integer",
+    "Conflict_Resolution_Rule": "If rounded category differs from either component category, choose higher risk category",
+    "Higher_Risk_Defined_As": "Higher numeric BCS value",
+    "Deterministic_Output": true
+  }
+},
 
   "BCS_Fusion_Formula": "Final_BCS = 0.6 * Deviation_BCS + 0.4 * Questionnaire_BCS",
 
