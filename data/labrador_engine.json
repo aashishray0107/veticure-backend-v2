@@ -2209,125 +2209,7 @@
       }
     }
   },
-  "BCS_Automatic_Detection_Logic": {
-    "Deviation_Decimal_Formula": "(Current_Weight_kg - Ideal_Mid_Weight_kg) / Ideal_Mid_Weight_kg",
-    "Ideal_Mid_Weight_Selection": {
-      "Source_Table": "Ideal_Weight_Reference_Table",
-      "Selection_Rule": "Find age bracket (with interpolation if needed), compute mid for given sex: Mid = (Min + Max) / 2"
-    },
-    "Deviation_Thresholds": {
-      "Underweight": {
-        "Max_Deviation_Decimal": -0.06
-      },
-      "Ideal": {
-        "Min_Deviation_Decimal": -0.05,
-        "Max_Deviation_Decimal": 0.05
-      },
-      "Overweight": {
-        "Min_Deviation_Decimal": 0.06,
-        "Max_Deviation_Decimal": 0.19
-      },
-      "Obese": {
-        "Min_Deviation_Decimal": 0.2
-      }
-    },
-    "Deviation_To_BCS_Estimate": {
-      "Underweight": {
-        "min_bcs": 1,
-        "max_bcs": 3
-      },
-      "Ideal": {
-        "min_bcs": 4,
-        "max_bcs": 5
-      },
-      "Overweight": {
-        "min_bcs": 6,
-        "max_bcs": 7
-      },
-      "Obese": {
-        "min_bcs": 8,
-        "max_bcs": 9
-      }
-    },
-    "BCS_Questionnaire_Logic": {
-      "Questions": [
-        {
-          "Id": "ribs_palpable",
-          "Prompt": "Can you easily feel ribs with light pressure without deep pressing?",
-          "Options": {
-            "Yes_easily": 0,
-            "Yes_with_moderate_pressure": 1,
-            "No_ribs_not_palpable": 2
-          }
-        },
-        {
-          "Id": "waist_visible_top",
-          "Prompt": "Is a clear waist visible from above?",
-          "Options": {
-            "Clearly_visible": 0,
-            "Barely_visible": 1,
-            "No_waist_or_barrel_shape": 2
-          }
-        },
-        {
-          "Id": "abdominal_tuck",
-          "Prompt": "Is there an abdominal tuck when viewed from the side?",
-          "Options": {
-            "Clear_tuck": 0,
-            "Mild_tuck": 1,
-            "No_tuck_or_sagging": 2
-          }
-        }
-      ],
-      "Scoring_Rules": {
-        "Total_Score_Range": [
-          0,
-          6
-        ],
-        "Score_To_BCS_Map": [
-          {
-            "min_score": 0,
-            "max_score": 1,
-            "bcs_value": 4
-          },
-          {
-            "min_score": 2,
-            "max_score": 3,
-            "bcs_value": 5
-          },
-          {
-            "min_score": 4,
-            "max_score": 4,
-            "bcs_value": 6
-          },
-          {
-            "min_score": 5,
-            "max_score": 5,
-            "bcs_value": 7
-          },
-          {
-            "min_score": 6,
-            "max_score": 6,
-            "bcs_value": {
-              "min_bcs": 8,
-              "max_bcs": 9
-            }
-          }
-        ]
-      },
-      "Fusion_Model": {
-        "Deviation_Component_Weight": 0.6,
-        "Questionnaire_Component_Weight": 0.4,
-        "Calculation_Method": "Final_BCS_Raw = (Deviation_BCS * 0.6) + (Questionnaire_BCS * 0.4)",
-        "Rounding_Method": "Round to nearest whole integer",
-        "Conflict_Resolution_Rule": "If rounded category differs from either component category, choose higher risk category",
-        "Higher_Risk_Defined_As": "Higher numeric BCS value",
-        "Edge_Case_Rule": "If one component returns range (e.g., 8-9), use midpoint before weighting",
-        "Deterministic_Output": true
-      }
-    },
-    "BCS_Fusion_Formula": "Final_BCS = 0.6 * Deviation_BCS + 0.4 * Questionnaire_BCS",
-    "higher_risk_override_if_conflict": true
+  
   },
   "Age_Resolution_Control": {
     "Priority_Order": [
@@ -2740,7 +2622,126 @@
         "Mandatory_Activity_Level": "Moderate_or_Higher"
       }
     }
+  },"BCS_Automatic_Detection_Logic": {
+    "BCS_Category_From_Score": {
+  "Underweight": { "min_bcs": 1, "max_bcs": 3 },
+  "Ideal": { "min_bcs": 4, "max_bcs": 5 },
+  "Overweight": { "min_bcs": 6, "max_bcs": 7 },
+  "Obese": { "min_bcs": 8, "max_bcs": 9 }
+}
+    "Deviation_Decimal_Formula": "(Current_Weight_kg - Ideal_Mid_Weight_kg) / Ideal_Mid_Weight_kg",
+    "Ideal_Mid_Weight_Selection": {
+      "Source_Table": "Ideal_Weight_Reference_Table",
+      "Selection_Rule": "Find age bracket (with interpolation if needed), compute mid for given sex: Mid = (Min + Max) / 2"
+    },
+    "Deviation_Thresholds": {
+  "Severe_Underweight": {
+    "Max_Deviation_Decimal": -0.30
   },
+  "Underweight": {
+    "Min_Deviation_Decimal": -0.30,
+    "Max_Deviation_Decimal": -0.10
+  },
+  "Ideal": {
+    "Min_Deviation_Decimal": -0.10,
+    "Max_Deviation_Decimal": 0.10
+  },
+  "Overweight": {
+    "Min_Deviation_Decimal": 0.10,
+    "Max_Deviation_Decimal": 0.30
+  },
+  "Obese": {
+    "Min_Deviation_Decimal": 0.30
+  }
+},
+    "Deviation_To_BCS_Estimate": {
+  "Severe_Underweight": { "min_bcs": 1, "max_bcs": 2 },
+  "Underweight": { "min_bcs": 3, "max_bcs": 4 },
+  "Ideal": { "min_bcs": 5, "max_bcs": 5 },
+  "Overweight": { "min_bcs": 6, "max_bcs": 7 },
+  "Obese": { "min_bcs": 8, "max_bcs": 9 }
+}
+    },
+    "BCS_Questionnaire_Logic": {
+      "Questions": [
+        {
+          "Id": "ribs_palpable",
+          "Prompt": "Can you easily feel ribs with light pressure without deep pressing?",
+          "Options": {
+            "Yes_easily": 0,
+            "Yes_with_moderate_pressure": 1,
+            "No_ribs_not_palpable": 2
+          }
+        },
+        {
+          "Id": "waist_visible_top",
+          "Prompt": "Is a clear waist visible from above?",
+          "Options": {
+            "Clearly_visible": 0,
+            "Barely_visible": 1,
+            "No_waist_or_barrel_shape": 2
+          }
+        },
+        {
+          "Id": "abdominal_tuck",
+          "Prompt": "Is there an abdominal tuck when viewed from the side?",
+          "Options": {
+            "Clear_tuck": 0,
+            "Mild_tuck": 1,
+            "No_tuck_or_sagging": 2
+          }
+        }
+      ],
+      "Scoring_Rules": {
+        "Total_Score_Range": [
+          0,
+          6
+        ],
+        "Score_To_BCS_Map": [
+          {
+            "min_score": 0,
+            "max_score": 1,
+            "bcs_value": 4
+          },
+          {
+            "min_score": 2,
+            "max_score": 3,
+            "bcs_value": 5
+          },
+          {
+            "min_score": 4,
+            "max_score": 4,
+            "bcs_value": 6
+          },
+          {
+            "min_score": 5,
+            "max_score": 5,
+            "bcs_value": 7
+          },
+          {
+            "min_score": 6,
+            "max_score": 6,
+            "bcs_value": {
+              "min_bcs": 8,
+              "max_bcs": 9
+            }
+          }
+        ]
+      },
+      "Fusion_Model": {
+        "Deviation_Component_Weight": 0.6,
+        "Questionnaire_Component_Weight": 0.4,
+        "Calculation_Method": "Final_BCS_Raw = (Deviation_BCS * 0.6) + (Questionnaire_BCS * 0.4)",
+        "Rounding_Method": "Round to nearest whole integer",
+        "Conflict_Resolution_Rule": "If rounded category differs from either component category, choose higher risk category",
+        "Higher_Risk_Defined_As": "Higher numeric BCS value",
+        "Edge_Case_Rule": "
+        If one component returns range (e.g., 8-9), use midpoint before weighting",
+        "Deterministic_Output": true
+      }
+    },
+    "BCS_Fusion_Formula": "Final_BCS = 0.6 * Deviation_BCS + 0.4 * Questionnaire_BCS",
+    "higher_risk_override_if_conflict": true
   "Goal_Priority_Execution_Rules": {
     "Step_1": "Calculate_Base_RER",
     "Step_2": "Apply_MER",
