@@ -55,6 +55,7 @@ let finalBCS = deviationBCS;
 
 const fusion =
   engineData?.BCS_Automatic_Detection_Logic
+    ?.BCS_Questionnaire_Logic
     ?.Fusion_Model;
 
 if (
@@ -62,17 +63,22 @@ if (
   fusion
 ) {
   finalBCS =
-    (deviationBCS * fusion.Deviation_Weight) +
-    (questionnaireBCS * fusion.Questionnaire_Weight);
+    (deviationBCS * fusion.Deviation_Component_Weight) +
+    (questionnaireBCS * fusion.Questionnaire_Component_Weight);
 }
 
 finalBCS = Math.round(finalBCS);
 
 // 🔥 Map Final BCS → Category
+{
 
-const categoryMap =
-  engineData?.BCS_Automatic_Detection_Logic
-    ?.BCS_Category_From_Score;
+let finalCategory = lifecycleReport.deviation_category;
+
+if (finalBCS <= 3) finalCategory = "Underweight";
+else if (finalBCS <= 5) finalCategory = "Ideal";
+else if (finalBCS <= 7) finalCategory = "Overweight";
+else finalCategory = "Obese";
+  }
 
 let finalCategory = null;
 
