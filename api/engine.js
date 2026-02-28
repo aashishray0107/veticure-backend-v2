@@ -51,60 +51,26 @@ export default async function handler(req, res) {
       engineData
     );
 
-    const bcsReport = computeBCS(
+    // 🔥 Full BCS Fusion (Single Authority)
+const bcsReport = computeBCS(
   lifecycleReport.deviation_bcs,
-  bcsReport.final_bcs_category,
-  req.body.bcs_answers,
+  lifecycleReport.deviation_category,
+  bcs_answers,
   engineData
 );
 
-    // 🔥 BCS Fusion Layer
-
-    const deviationBCS =
-      lifecycleReport.deviation_bcs;
-
-    const questionnaireBCS =
-      calculateQuestionnaireBCS(
-        bcs_answers,
-        engineData
-      );
-
-    let finalBCS = deviationBCS;
-
-    const fusion =
-      engineData?.BCS_Automatic_Detection_Logic
-        ?.BCS_Questionnaire_Logic
-        ?.Fusion_Model;
-
-    if (
-      questionnaireBCS !== null &&
-      fusion
-    ) {
-      finalBCS =
-        (deviationBCS * fusion.Deviation_Component_Weight) +
-        (questionnaireBCS * fusion.Questionnaire_Component_Weight);
-    }
-
-    finalBCS = Math.round(finalBCS);
-
-    // 🔹 Map Final BCS → Category (clinical 1–9 logic)
-    let finalCategory;
-
-    if (finalBCS <= 3) finalCategory = "Underweight";
-    else if (finalBCS <= 5) finalCategory = "Ideal";
-    else if (finalBCS <= 7) finalCategory = "Overweight";
-    else finalCategory = "Obese";
+const finalCategory = bcsReport.final_bcs_category;
 
     // 🔹 Calorie Engine (uses fused category)
     const calorieReport = calculateCalories(
-      weight_kg,
-      activity_level || "Moderate_Activity",
-      goal,
-      finalCategory,
-      lifecycleReport.life_stage,
-      age_months,
-      engineData
-    );
+  weight_kg,
+  activity_level || "Moderate_Activity",
+  goal,
+  finalCategory,
+  lifecycleReport.life_stage,
+  age_months,
+  engineData
+);
 
     // 🔹 Macro Engine
     const macroReport = calculateMacros(
