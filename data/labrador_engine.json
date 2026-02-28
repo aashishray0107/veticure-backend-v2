@@ -3036,7 +3036,20 @@
     
   }
   
+},"Fish oil": {
+  "kcal_per_100g": 900,
+  "protein_g": 0,
+  "fat_g": 100,
+  "carbs_g": 0,
+  "fiber_g": 0,
+  "calcium_g": 0,
+  "phosphorus_g": 0,
+  "moisture_g": 0,
+  "digestibility_rating": "high",
+  "lifecycle_suitability": ["adult", "senior", "weight_loss", "muscle_gain"],
+  "category": "pure_fat_source"
 },
+
 
 "Egg white boiled": {
     "kcal_per_100g": 52,
@@ -3766,7 +3779,17 @@
         ],
         "max_safe_percentage_of_total_meal": 0.05,
         "category": "moderate_fat_source"
-      }
+      },
+      "Fish oil": {
+  "kcal_per_100g": 900,
+  "protein_g": 0,
+  "fat_g": 100,
+  "carbs_g": 0,
+  "fiber_g": 0,
+  "calcium_g": 0,
+  "phosphorus_g": 0,
+  "moisture_g": 0
+}
     }
   },
   "Senior_Phosphorus_Control_Module": {
