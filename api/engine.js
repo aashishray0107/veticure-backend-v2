@@ -8,7 +8,6 @@ import { calculateCalories } from "../lib/calories.js";
 import { calculateMacros } from "../lib/macro.js";
 import { allocateIngredients } from "../lib/allocation.js";
 import { validateMinerals } from "../lib/mineral.js";
-import { calculateQuestionnaireBCS } from "../lib/bcsEngine.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -100,12 +99,7 @@ const finalCategory = bcsReport.final_bcs_category;
 
       lifecycle_report: lifecycleReport,
 
-      bcs_report: {
-        deviation_bcs: deviationBCS,
-        questionnaire_bcs: questionnaireBCS,
-        final_bcs_score: finalBCS,
-        final_bcs_category: finalCategory
-      },
+      bcs_report: bcsReport,
 
       calorie_report: calorieReport,
       macro_report: macroReport,

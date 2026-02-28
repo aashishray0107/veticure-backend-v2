@@ -2621,7 +2621,8 @@
         "Mandatory_Activity_Level": "Moderate_or_Higher"
       }
     }
-  },"BCS_Automatic_Detection_Logic": {
+  },
+  "BCS_Automatic_Detection_Logic": {
     "BCS_Category_From_Score": {
   "Underweight": { "min_bcs": 1, "max_bcs": 3 },
   "Ideal": { "min_bcs": 4, "max_bcs": 5 },
@@ -2659,8 +2660,8 @@
   "Ideal": { "min_bcs": 5, "max_bcs": 5 },
   "Overweight": { "min_bcs": 6, "max_bcs": 7 },
   "Obese": { "min_bcs": 8, "max_bcs": 9 }
-}
-    },
+},
+    
     "BCS_Questionnaire_Logic": {
       "Questions": [
         {
@@ -3849,5 +3850,6 @@
       "Must_Preserve_Final_kcal_per_day": true
     }
   }
+}
 }
 }
