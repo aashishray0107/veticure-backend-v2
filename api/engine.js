@@ -47,10 +47,11 @@ export default async function handler(req, res) {
 
     // 4️⃣ Macros
     const macroReport = calculateMacros(
-      calorieReport.final_calories,
-      lifecycleReport.life_stage,
-      goal
-    );
+  calorieReport.final_calories,
+  lifecycleReport.life_stage,
+  goal,
+  engineData
+);
 
     // 5️⃣ Allocation
     const allocationReport = allocateIngredients(
