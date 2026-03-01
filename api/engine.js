@@ -42,7 +42,7 @@ export default async function handler(req, res) {
     const engineData = JSON.parse(rawData);
 
     const foodDB =
-      engineData?.Food_Composition_Database?.Ingredients;
+  engineData?.Food_Composition_Database?.Ingredients;
 
     // 🔹 Lifecycle (age + weight deviation only)
     const lifecycleReport = evaluateLifecycle(
