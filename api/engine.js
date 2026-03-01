@@ -96,10 +96,12 @@ export default async function handler(req, res) {
 
     // 🔹 Ingredient Allocation
     const allocationReport = allocateIngredients(
-      macroReport,
-      lifecycleReport.life_stage,
-      finalCategory
-    );
+  macroReport,
+  lifecycleReport.life_stage,
+  finalCategory,
+  engineData,
+  foodDB
+);
 
     // 🔹 Mineral Validation
     const mineralReport = validateMinerals(
