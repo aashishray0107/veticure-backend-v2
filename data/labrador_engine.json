@@ -3843,6 +3843,18 @@
       "Must_Preserve_Final_kcal_per_day": true
     }
   }
+},
+"Risk_Assessment_Model": {
+  "Underweight": {
+    "mild": { "min": -0.10, "max": -0.06, "risk": "Low_Risk" },
+    "moderate": { "min": -0.20, "max": -0.11, "risk": "Moderate_Risk" },
+    "severe": { "max": -0.21, "risk": "High_Risk" }
+  },
+  "Overweight": {
+    "mild": { "min": 0.06, "max": 0.15, "risk": "Low_Risk" },
+    "moderate": { "min": 0.16, "max": 0.30, "risk": "Moderate_Risk" },
+    "severe": { "min": 0.31, "risk": "High_Risk" }
+  }
 }
 }
 
