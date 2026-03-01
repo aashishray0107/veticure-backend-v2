@@ -8,6 +8,7 @@ import { evaluateLifecycle } from "../lib/lifecycle.js";
 import { calculateCalories } from "../lib/calories.js";
 import { calculateMacros } from "../lib/macro.js";
 import { allocateIngredients } from "../lib/allocation.js";
+import { generateRotationalPlan } from "../lib/rotationalPlanner.js";
 import { validateMinerals } from "../lib/mineral.js";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -100,6 +101,19 @@ const weightPlan = generateWeightPlan(
       allocationReport,
       foodDB
     );
+
+    const rotationalPlan =
+  generateRotationalPlan(
+    lifecycleReport.life_stage,
+    finalCategory,
+    {
+      ...macroReport,
+      calories: calorieReport.final_calories
+    },
+    engineData,
+    foodDB,
+    validateMinerals
+  );
 
     return res.status(200).json({
 
