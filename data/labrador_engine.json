@@ -3855,6 +3855,83 @@
     "moderate": { "min": 0.16, "max": 0.30, "risk": "Moderate_Risk" },
     "severe": { "min": 0.31, "risk": "High_Risk" }
   }
+},
+"Rotational_Ingredient_Pools": {
+
+  "Protein": {
+
+    "Lean": [
+      "Chicken breast boiled",
+      "Rohu fish boiled deboned",
+      "Boiled egg white",
+      "Low fat paneer",
+      "Boiled soya chunks"
+    ],
+
+    "Moderate_Fat": [
+      "Egg whole boiled",
+      "Chicken thigh boiled skinless",
+      "Curd plain low fat",
+      "Paneer regular"
+    ],
+
+    "Higher_Fat": [
+      "Chicken thigh with skin",
+      "Mutton lean boiled"
+    ],
+
+    "Organ_Controlled": [
+      "Chicken liver boiled",
+      "Goat liver boiled"
+    ]
+  },
+
+  "Carbohydrate": {
+
+    "Primary": [
+      "Rice cooked white",
+      "Brown rice cooked",
+      "Chapati whole wheat",
+      "Broken wheat daliya cooked"
+    ],
+
+    "Low_GI_Alternative": [
+      "Sweet potato boiled",
+      "Oats cooked",
+      "Barley cooked"
+    ]
+  },
+
+  "Vegetables": {
+
+    "Low_Calorie_Fiber": [
+      "Lauki boiled",
+      "Pumpkin boiled",
+      "Tori boiled",
+      "Cabbage boiled",
+      "Carrot boiled"
+    ],
+
+    "Micronutrient_Dense": [
+      "Spinach boiled",
+      "Beans boiled",
+      "Peas boiled",
+      "Beetroot boiled"
+    ]
+  },
+
+  "Fats": {
+
+    "Essential_Omega3": [
+      "Fish oil",
+      "Flaxseed oil"
+    ],
+
+    "Traditional_Indian_Fat_Controlled": [
+      "Cold pressed mustard oil",
+      "Groundnut oil limited"
+    ]
+  }
 }
 }
 
