@@ -36,15 +36,21 @@ export default async function handler(req, res) {
 
   try {
 
-    // 🔹 Load Breed JSON
+    // 🔹 Load Engine JSON
     const dataPath = path.join(__dirname, "../data/labrador_engine.json");
     const rawData = fs.readFileSync(dataPath, "utf-8");
     const engineData = JSON.parse(rawData);
 
+    // 🔥 Support both DB structures (old + expanded)
     const foodDB =
-  engineData?.Food_Composition_Database?.Ingredients;
+      engineData?.Expanded_Food_Composition_Database_v2?.Ingredients ||
+      engineData?.Food_Composition_Database?.Ingredients;
 
-    // 🔹 Lifecycle (age + weight deviation only)
+    if (!foodDB) {
+      throw new Error("Food database missing in JSON");
+    }
+
+    // 🔹 Lifecycle
     const lifecycleReport = evaluateLifecycle(
       age_months,
       weight_kg,
@@ -52,34 +58,35 @@ export default async function handler(req, res) {
       engineData
     );
 
-    // 🔥 Full BCS Fusion (Single Authority)
-const bcsReport = computeBCS(
-  lifecycleReport.deviation_bcs,
-  lifecycleReport.deviation_category,
-  bcs_answers,
-  engineData
-);
+    // 🔹 BCS Fusion
+    const bcsReport = computeBCS(
+      lifecycleReport.deviation_bcs,
+      lifecycleReport.deviation_category,
+      bcs_answers,
+      engineData
+    );
 
-const finalCategory = bcsReport.final_bcs_category;
+    const finalCategory = bcsReport.final_bcs_category;
 
-const weightPlan = generateWeightPlan(
-  weight_kg,
-  lifecycleReport.ideal_weight,
-  finalCategory
-);
+    // 🔹 Weight Plan
+    const weightPlan = generateWeightPlan(
+      weight_kg,
+      lifecycleReport.ideal_weight,
+      finalCategory
+    );
 
-    // 🔹 Calorie Engine (uses fused category)
+    // 🔹 Calories
     const calorieReport = calculateCalories(
-  weight_kg,
-  activity_level || "Moderate_Activity",
-  goal,
-  finalCategory,
-  lifecycleReport.life_stage,
-  age_months,
-  engineData
-);
+      weight_kg,
+      activity_level || "Moderate_Activity",
+      goal,
+      finalCategory,
+      lifecycleReport.life_stage,
+      age_months,
+      engineData
+    );
 
-    // 🔹 Macro Engine
+    // 🔹 Macros
     const macroReport = calculateMacros(
       calorieReport.final_calories,
       lifecycleReport.life_stage,
@@ -87,12 +94,12 @@ const weightPlan = generateWeightPlan(
       engineData
     );
 
-    // 🔹 Allocation
+    // 🔹 Ingredient Allocation
     const allocationReport = allocateIngredients(
-  macroReport,
-  lifecycleReport.life_stage,
-  finalCategory
-);
+      macroReport,
+      lifecycleReport.life_stage,
+      finalCategory
+    );
 
     // 🔹 Mineral Validation
     const mineralReport = validateMinerals(
@@ -102,34 +109,39 @@ const weightPlan = generateWeightPlan(
       foodDB
     );
 
-    const rotationalPlan =
-  generateRotationalPlan(
-    lifecycleReport.life_stage,
-    finalCategory,
-    {
-      ...macroReport,
-      calories: calorieReport.final_calories
-    },
-    engineData,
-    foodDB,
-    validateMinerals
-  );
+    // 🔹 Rotational Planner (safe mode)
+    let rotationalPlan = null;
 
+    try {
+      rotationalPlan = generateRotationalPlan(
+        lifecycleReport.life_stage,
+        finalCategory,
+        {
+          ...macroReport,
+          calories: calorieReport.final_calories
+        },
+        engineData,
+        foodDB,
+        validateMinerals
+      );
+    } catch (rotationError) {
+      rotationalPlan = {
+        error: "Rotational plan failed",
+        details: rotationError.message
+      };
+    }
+
+    // 🔹 Final Response
     return res.status(200).json({
-
       input: req.body,
-
       lifecycle_report: lifecycleReport,
-
       weight_plan: weightPlan,
-
       bcs_report: bcsReport,
-
       calorie_report: calorieReport,
       macro_report: macroReport,
       allocation_report: allocationReport,
-      mineral_report: mineralReport
-
+      mineral_report: mineralReport,
+      rotational_plan: rotationalPlan
     });
 
   } catch (err) {
