@@ -88,9 +88,10 @@ const weightPlan = generateWeightPlan(
 
     // 🔹 Allocation
     const allocationReport = allocateIngredients(
-      macroReport,
-      lifecycleReport.life_stage
-    );
+  macroReport,
+  lifecycleReport.life_stage,
+  finalCategory
+);
 
     // 🔹 Mineral Validation
     const mineralReport = validateMinerals(
