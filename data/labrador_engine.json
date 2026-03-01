@@ -3059,59 +3059,104 @@
 
     }
   },
+
+  "Spinach boiled": {
+  "kcal_per_100g": 23,
+  "protein_g": 2.9,
+  "fat_g": 0.4,
+  "carbs_g": 3.6,
+  "fiber_g": 2.2,
+  "calcium_g": 0.099,
+  "phosphorus_g": 0.049,
+  "moisture_g": 91,
+  "digestibility_rating": "moderate",
+  "lifecycle_suitability": ["adult","senior","weight_loss"],
+  "max_safe_percentage_of_total_meal": 0.08,
+  "category": "micronutrient_dense_veg"
+},
+
+"French beans boiled": {
+  "kcal_per_100g": 31,
+  "protein_g": 1.8,
+  "fat_g": 0.1,
+  "carbs_g": 7,
+  "fiber_g": 3.4,
+  "calcium_g": 0.037,
+  "phosphorus_g": 0.038,
+  "moisture_g": 90,
+  "digestibility_rating": "moderate",
+  "lifecycle_suitability": ["adult","senior","weight_loss"],
+  "max_safe_percentage_of_total_meal": 0.12,
+  "category": "micronutrient_dense_veg"
+},
+
+"Cabbage boiled": {
+  "kcal_per_100g": 25,
+  "protein_g": 1.3,
+  "fat_g": 0.1,
+  "carbs_g": 6,
+  "fiber_g": 2.5,
+  "calcium_g": 0.04,
+  "phosphorus_g": 0.026,
+  "moisture_g": 92,
+  "digestibility_rating": "moderate",
+  "lifecycle_suitability": ["adult","senior","weight_loss"],
+  "max_safe_percentage_of_total_meal": 0.15,
+  "category": "fiber_veg"
+},
   "Vegetable_Safety_List": {
-    "description": "Used to prevent fiber overload, gas risk and inappropriate lifecycle usage",
-    "items": [
-      {
-        "name": "Pumpkin",
-        "fiber_density_category": "low",
-        "gas_risk_flag": false,
-        "max_pct": 0.35,
-        "weight_loss_ok": true,
-        "growth_ok": true
-      },
-      {
-        "name": "Lauki",
-        "fiber_density_category": "low",
-        "gas_risk_flag": false,
-        "max_pct": 0.4,
-        "weight_loss_ok": true,
-        "growth_ok": true
-      },
-      {
-        "name": "Carrot",
-        "fiber_density_category": "moderate",
-        "gas_risk_flag": false,
-        "max_pct": 0.2,
-        "weight_loss_ok": true,
-        "growth_ok": true
-      },
-      {
-        "name": "Sweet potato",
-        "fiber_density_category": "moderate",
-        "gas_risk_flag": false,
-        "max_pct": 0.25,
-        "weight_loss_ok": false,
-        "growth_ok": true
-      },
-      {
-        "name": "Spinach",
-        "fiber_density_category": "high",
-        "gas_risk_flag": true,
-        "max_pct": 0.08,
-        "weight_loss_ok": true,
-        "growth_ok": false
-      },
-      {
-        "name": "Beans (french)",
-        "fiber_density_category": "moderate",
-        "gas_risk_flag": true,
-        "max_pct": 0.15,
-        "weight_loss_ok": true,
-        "growth_ok": true
-      }
-    ]
-  },
+  "description": "Used to prevent fiber overload, gas risk and inappropriate lifecycle usage",
+  "items": [
+    {
+      "name": "Pumpkin boiled",
+      "fiber_density_category": "low",
+      "gas_risk_flag": false,
+      "max_pct": 0.35,
+      "weight_loss_ok": true,
+      "growth_ok": true
+    },
+    {
+      "name": "Lauki (bottle gourd) boiled",
+      "fiber_density_category": "low",
+      "gas_risk_flag": false,
+      "max_pct": 0.4,
+      "weight_loss_ok": true,
+      "growth_ok": true
+    },
+    {
+      "name": "Carrot boiled",
+      "fiber_density_category": "moderate",
+      "gas_risk_flag": false,
+      "max_pct": 0.2,
+      "weight_loss_ok": true,
+      "growth_ok": true
+    },
+    {
+      "name": "Sweet potato boiled",
+      "fiber_density_category": "moderate",
+      "gas_risk_flag": false,
+      "max_pct": 0.25,
+      "weight_loss_ok": false,
+      "growth_ok": true
+    },
+    {
+      "name": "Spinach boiled",
+      "fiber_density_category": "high",
+      "gas_risk_flag": true,
+      "max_pct": 0.08,
+      "weight_loss_ok": true,
+      "growth_ok": false
+    },
+    {
+      "name": "French beans boiled",
+      "fiber_density_category": "moderate",
+      "gas_risk_flag": true,
+      "max_pct": 0.15,
+      "weight_loss_ok": true,
+      "growth_ok": true
+    }
+  ]
+},
   "Ingredient_Substitution_Map": {
     "Protein_Animal": {
       "Chicken breast boiled": [
@@ -3165,11 +3210,11 @@
       ]
     },
     "Allocation_Priority": [
-      "protein_animal → target protein g",
-      "fat_from_protein + added fat source",
-      "carb_base → remaining calories",
-      "fiber_veg → volume & satiety (max % respected)"
-    ],
+    "protein_animal",
+    "carb_base",
+    "fiber_veg_min_20pct",
+    "fat_source_if_needed"
+  ],
     "Validation_Before_Output": [
       "Ca g / 1000 kcal ∈ [3.0, 4.5] during growth (Lifecycle_Growth_Model_20_Stages)",
       "Ca:P ratio ∈ [1.1, 1.4] during growth",
