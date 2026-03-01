@@ -1,3 +1,4 @@
+import { generateWeightPlan } from "../lib/weightPlanner.js";
 import { computeBCS } from "../lib/bcs.js";
 import fs from "fs";
 import path from "path";
@@ -59,6 +60,12 @@ const bcsReport = computeBCS(
 );
 
 const finalCategory = bcsReport.final_bcs_category;
+
+const weightPlan = generateWeightPlan(
+  weight_kg,
+  lifecycleReport.ideal_weight,
+  finalCategory
+);
 
     // 🔹 Calorie Engine (uses fused category)
     const calorieReport = calculateCalories(
