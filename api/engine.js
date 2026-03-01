@@ -106,6 +106,8 @@ const weightPlan = generateWeightPlan(
 
       lifecycle_report: lifecycleReport,
 
+      weight_plan: weightPlan,
+
       bcs_report: bcsReport,
 
       calorie_report: calorieReport,
