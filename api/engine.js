@@ -14,7 +14,7 @@ import { generateRotationalPlan } from "../lib/rotationalPlanner.js";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// 🔹 Load JSON once (better performance)
+// 🔹 Load Engine JSON ONCE (cold start only)
 const dataPath = path.join(__dirname, "../data/labrador_engine.json");
 const rawData = fs.readFileSync(dataPath, "utf-8");
 const engineData = JSON.parse(rawData);
@@ -26,6 +26,18 @@ const foodDB =
 
 if (!foodDB) {
   throw new Error("Food database missing in JSON");
+}
+
+// 🔹 Safe wrapper helper
+function safeExecute(label, fn) {
+  try {
+    return fn();
+  } catch (err) {
+    return {
+      error: `${label} failed`,
+      details: err.message
+    };
+  }
 }
 
 export default async function handler(req, res) {
@@ -44,93 +56,123 @@ export default async function handler(req, res) {
     bcs_answers
   } = req.body;
 
+  // 🔹 Basic Input Validation
   if (!breed || !age_months || !weight_kg || !goal) {
     return res.status(400).json({ error: "Missing required fields" });
   }
 
   try {
 
-    // 🔹 Lifecycle
-    const lifecycleReport = evaluateLifecycle(
-      age_months,
-      weight_kg,
-      gender || "Male",
-      engineData
+    // =============================
+    // STAGE 1 — Lifecycle
+    // =============================
+    const lifecycleReport = safeExecute("Lifecycle", () =>
+      evaluateLifecycle(
+        age_months,
+        weight_kg,
+        gender || "Male",
+        engineData
+      )
     );
 
-    // 🔹 BCS
-    const bcsReport = computeBCS(
-      lifecycleReport.deviation_bcs,
-      lifecycleReport.deviation_category,
-      bcs_answers,
-      engineData
+    if (lifecycleReport?.error) {
+      return res.status(500).json(lifecycleReport);
+    }
+
+    // =============================
+    // STAGE 2 — BCS
+    // =============================
+    const bcsReport = safeExecute("BCS", () =>
+      computeBCS(
+        lifecycleReport.deviation_bcs,
+        lifecycleReport.deviation_category,
+        bcs_answers,
+        engineData
+      )
     );
+
+    if (bcsReport?.error) {
+      return res.status(500).json(bcsReport);
+    }
 
     const finalCategory = bcsReport.final_bcs_category;
 
-    // 🔹 Weight Plan
-    const weightPlan = generateWeightPlan(
-      weight_kg,
-      lifecycleReport.ideal_weight,
-      finalCategory
+    // =============================
+    // STAGE 3 — Weight Plan
+    // =============================
+    const weightPlan = safeExecute("WeightPlan", () =>
+      generateWeightPlan(
+        weight_kg,
+        lifecycleReport.ideal_weight,
+        finalCategory
+      )
     );
 
-    // 🔹 Calories
-    const calorieReport = calculateCalories(
-      weight_kg,
-      activity_level || "Moderate_Activity",
-      goal,
-      finalCategory,
-      lifecycleReport.life_stage,
-      age_months,
-      engineData
+    // =============================
+    // STAGE 4 — Calories
+    // =============================
+    const calorieReport = safeExecute("Calories", () =>
+      calculateCalories(
+        weight_kg,
+        activity_level || "Moderate_Activity",
+        goal,
+        finalCategory,
+        lifecycleReport.life_stage,
+        age_months,
+        engineData
+      )
     );
 
-    // 🔹 Macros
-    const macroReport = calculateMacros(
-      calorieReport.final_calories,
-      lifecycleReport.life_stage,
-      goal,
-      engineData
+    if (calorieReport?.error) {
+      return res.status(500).json(calorieReport);
+    }
+
+    // =============================
+    // STAGE 5 — Macros
+    // =============================
+    const macroReport = safeExecute("Macros", () =>
+      calculateMacros(
+        calorieReport.final_calories,
+        lifecycleReport.life_stage,
+        goal,
+        engineData
+      )
     );
 
-    // 🔹 Allocation (safe wrapped)
-    let allocationReport;
-    try {
-      allocationReport = allocateIngredients(
+    if (macroReport?.error) {
+      return res.status(500).json(macroReport);
+    }
+
+    // =============================
+    // STAGE 6 — Allocation
+    // =============================
+    const allocationReport = safeExecute("Allocation", () =>
+      allocateIngredients(
         macroReport,
         lifecycleReport.life_stage,
         finalCategory,
         engineData,
         foodDB
-      );
-    } catch (allocErr) {
-      allocationReport = {
-        error: "Allocation failed",
-        details: allocErr.message
-      };
-    }
+      )
+    );
 
-    // 🔹 Minerals (safe wrapped)
-    let mineralReport;
-    try {
-      mineralReport = validateMinerals(
+    // =============================
+    // STAGE 7 — Minerals
+    // =============================
+    const mineralReport = safeExecute("Minerals", () =>
+      validateMinerals(
         lifecycleReport.life_stage,
         calorieReport.final_calories,
         allocationReport,
         foodDB
-      );
-    } catch (mineralErr) {
-      mineralReport = {
-        error: "Mineral validation failed",
-        details: mineralErr.message
-      };
-    }
+      )
+    );
 
-    // 🔹 Rotation (safe wrapped)
-    let rotationalPlan;
-    try {
-      rotationalPlan = generateRotationalPlan(
+    // =============================
+    // STAGE 8 — Rotation
+    // =============================
+    const rotationalPlan = safeExecute("Rotation", () =>
+      generateRotationalPlan(
         lifecycleReport.life_stage,
         finalCategory,
         {
@@ -140,14 +182,12 @@ export default async function handler(req, res) {
         engineData,
         foodDB,
         validateMinerals
-      );
-    } catch (rotationErr) {
-      rotationalPlan = {
-        error: "Rotational plan failed",
-        details: rotationErr.message
-      };
-    }
+      )
+    );
 
+    // =============================
+    // FINAL RESPONSE
+    // =============================
     return res.status(200).json({
       input: req.body,
       lifecycle_report: lifecycleReport,
